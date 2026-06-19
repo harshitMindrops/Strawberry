@@ -17,7 +17,8 @@ db.exec(`
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     student_id INTEGER NOT NULL,
     date TEXT NOT NULL,
-    status TEXT NOT NULL
+    status TEXT NOT NULL,
+    UNIQUE(student_id, date)
   );
 
   CREATE TABLE IF NOT EXISTS gallery (

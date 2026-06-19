@@ -3,7 +3,14 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
 
+const { verifyToken } = require('../middleware/auth');
 const router = express.Router();
+
+router.get('/me', verifyToken, (req, res) => {
+  const user = db.prepare('SELECT id, name, role, status, type, fees FROM users WHERE id = ?').get(req.user.id);
+  if (!user) return res.status(404).json({ message: 'User not found' });
+  res.json({ user });
+});
 
 router.post('/signup', (req, res) => {
   const { name, email, password } = req.body;
